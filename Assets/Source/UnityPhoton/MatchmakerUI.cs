@@ -16,7 +16,7 @@ namespace UnityPhoton {
         }
 
         private void OnNewConnectionState(string newConnectionState) {
-            status.text += newConnectionState + "\n";
+            status.text += "\n" + newConnectionState;
         }
     }
 }

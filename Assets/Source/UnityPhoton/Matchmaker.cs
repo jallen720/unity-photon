@@ -1,17 +1,17 @@
-﻿using System.Collections.Generic;
-using ExitGames.Client.Photon;
+﻿using ExitGames.Client.Photon;
 using Photon;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace UnityPhoton {
     public class Matchmaker : PunBehaviour {
+
+        [SerializeField]
+        private CharacterSpawner characterSpawner;
+
         private void Start() {
             PhotonNetwork.ConnectUsingSettings("0.1");
-        }
-
-        public override void OnConnectedToMaster() {
-            base.OnConnectedToMaster();
-            Debug.Log("OnConnectedToMaster()");
         }
 
         public override void OnConnectedToPhoton() {
@@ -19,14 +19,74 @@ namespace UnityPhoton {
             Debug.Log("OnConnectedToPhoton()");
         }
 
-        public override void OnConnectionFail(DisconnectCause cause) {
-            base.OnConnectionFail(cause);
-            Debug.Log("OnConnectionFail()");
+        public override void OnConnectedToMaster() {
+            base.OnConnectedToMaster();
+            Debug.Log("OnConnectedToMaster()");
+            PhotonNetwork.JoinLobby();
+        }
+
+        public override void OnJoinedLobby() {
+            base.OnJoinedLobby();
+            Debug.Log("OnJoinedLobby()");
+            PhotonNetwork.JoinRandomRoom();
+        }
+
+        public override void OnReceivedRoomListUpdate() {
+            base.OnReceivedRoomListUpdate();
+            Debug.Log("OnReceivedRoomListUpdate()");
+        }
+
+        private void OnPhotonRandomJoinFailed() {
+            Debug.Log("OnPhotonRandomJoinFailed()");
+
+            // Couldn't join random room; create new one.
+            PhotonNetwork.CreateRoom(null);
+        }
+
+        public override void OnLeftLobby() {
+            base.OnLeftLobby();
+            Debug.Log("OnLeftLobby()");
+        }
+
+        public override void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged) {
+            base.OnPhotonCustomRoomPropertiesChanged(propertiesThatChanged);
+
+            Debug.Log(propertiesThatChanged.Aggregate(
+                "OnPhotonCustomRoomPropertiesChanged():\n",
+                PropertiesAggregator));
+        }
+
+        private string PropertiesAggregator(string message, KeyValuePair<object, object> property) {
+            return message + "    { " +
+                   property.Key.ToString() + ", " +
+                   property.Value.ToString() + " }\n";
         }
 
         public override void OnCreatedRoom() {
             base.OnCreatedRoom();
             Debug.Log("OnCreatedRoom()");
+        }
+
+        public override void OnJoinedRoom() {
+            base.OnJoinedRoom();
+            Debug.Log("OnJoinedRoom()");
+            characterSpawner.SpawnCharacter();
+        }
+
+        public override void OnLeftRoom() {
+            base.OnLeftRoom();
+            Debug.Log("OnLeftRoom()");
+        }
+
+        public override void OnDisconnectedFromPhoton() {
+            base.OnDisconnectedFromPhoton();
+            Debug.Log("OnDisconnectedFromPhoton()");
+        }
+
+        #region Event handlers
+        public override void OnConnectionFail(DisconnectCause cause) {
+            base.OnConnectionFail(cause);
+            Debug.Log("OnConnectionFail()");
         }
 
         public override void OnCustomAuthenticationFailed(string debugMessage) {
@@ -39,35 +99,9 @@ namespace UnityPhoton {
             Debug.Log("OnCustomAuthenticationResponse()");
         }
 
-        public override void OnDisconnectedFromPhoton() {
-            base.OnDisconnectedFromPhoton();
-            Debug.Log("OnDisconnectedFromPhoton()");
-        }
-
         public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
             base.OnFailedToConnectToPhoton(cause);
             Debug.Log("OnFailedToConnectToPhoton()");
-        }
-
-        public override void OnJoinedLobby() {
-            base.OnJoinedLobby();
-            Debug.Log("OnJoinedLobby()");
-            PhotonNetwork.JoinRandomRoom();
-        }
-
-        public override void OnJoinedRoom() {
-            base.OnJoinedRoom();
-            Debug.Log("OnJoinedRoom()");
-        }
-
-        public override void OnLeftLobby() {
-            base.OnLeftLobby();
-            Debug.Log("OnLeftLobby()");
-        }
-
-        public override void OnLeftRoom() {
-            base.OnLeftRoom();
-            Debug.Log("OnLeftRoom()");
         }
 
         public override void OnLobbyStatisticsUpdate() {
@@ -88,11 +122,6 @@ namespace UnityPhoton {
         public override void OnPhotonCreateRoomFailed(object[] codeAndMsg) {
             base.OnPhotonCreateRoomFailed(codeAndMsg);
             Debug.Log("OnPhotonCreateRoomFailed()");
-        }
-
-        public override void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged) {
-            base.OnPhotonCustomRoomPropertiesChanged(propertiesThatChanged);
-            Debug.Log("OnPhotonCustomRoomPropertiesChanged()");
         }
 
         public override void OnPhotonInstantiate(PhotonMessageInfo info) {
@@ -130,11 +159,6 @@ namespace UnityPhoton {
             Debug.Log("OnPhotonRandomJoinFailed()");
         }
 
-        public override void OnReceivedRoomListUpdate() {
-            base.OnReceivedRoomListUpdate();
-            Debug.Log("OnReceivedRoomListUpdate()");
-        }
-
         public override void OnUpdatedFriendList() {
             base.OnUpdatedFriendList();
             Debug.Log("OnUpdatedFriendList()");
@@ -144,9 +168,6 @@ namespace UnityPhoton {
             base.OnWebRpcResponse(response);
             Debug.Log("OnWebRpcResponse()");
         }
-
-        private void OnPhotonRandomJoinFailed() {
-            Debug.LogError("failed to join random room");
-        }
+        #endregion Event handlers
     }
 }
