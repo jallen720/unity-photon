@@ -10,6 +10,9 @@ namespace UnityPhoton {
         [SerializeField]
         private CharacterSpawner characterSpawner;
 
+        [SerializeField]
+        private InGameLog log;
+
         private void Start() {
             PhotonNetwork.ConnectUsingSettings("0.1");
         }
@@ -83,6 +86,16 @@ namespace UnityPhoton {
             Debug.Log("OnDisconnectedFromPhoton()");
         }
 
+        public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
+            base.OnPhotonPlayerConnected(newPlayer);
+            Debug.Log("OnPhotonPlayerConnected(" + newPlayer.ID + ")");
+        }
+
+        public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
+            base.OnPhotonPlayerDisconnected(otherPlayer);
+            Debug.Log("OnPhotonPlayerDisconnected(" + otherPlayer.ID + ")");
+        }
+
         #region Event handlers
         public override void OnConnectionFail(DisconnectCause cause) {
             base.OnConnectionFail(cause);
@@ -137,16 +150,6 @@ namespace UnityPhoton {
         public override void OnPhotonMaxCccuReached() {
             base.OnPhotonMaxCccuReached();
             Debug.Log("OnPhotonMaxCccuReached()");
-        }
-
-        public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
-            base.OnPhotonPlayerConnected(newPlayer);
-            Debug.Log("OnPhotonPlayerConnected()");
-        }
-
-        public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
-            base.OnPhotonPlayerDisconnected(otherPlayer);
-            Debug.Log("OnPhotonPlayerDisconnected()");
         }
 
         public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {

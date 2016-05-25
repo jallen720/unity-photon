@@ -1,7 +1,10 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityPhoton {
+
+    [RequireComponent(typeof(SpriteRenderer))]
     public class Character : Photon.MonoBehaviour {
 
         [SerializeField]
@@ -13,11 +16,28 @@ namespace UnityPhoton {
         [SerializeField]
         private float sourceRotationSpeed;
 
+        private SpriteRenderer spriteRenderer;
         private Vector3 sourcePosition;
         private Quaternion sourceRotation;
 
         private void Start() {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            spriteRenderer.color = CharacterConfig.CharacterColors[GetOwnerColorIndex()];
             CheckInit();
+        }
+
+        private int GetOwnerColorIndex() {
+            return SortedPlayerList().IndexOf(photonView.owner);
+        }
+
+        private List<PhotonPlayer> SortedPlayerList() {
+            var sortedPlayerList = new List<PhotonPlayer>(PhotonNetwork.playerList);
+
+            sortedPlayerList.Sort((PhotonPlayer playerA, PhotonPlayer playerB) => {
+                return playerA.ID.CompareTo(playerB.ID);
+            });
+
+            return sortedPlayerList;
         }
 
         private void CheckInit() {
@@ -60,6 +80,7 @@ namespace UnityPhoton {
         }
 
         private void InitAsSource() {
+            
             StartCoroutine(ControlsRoutine());
         }
 
@@ -113,8 +134,8 @@ namespace UnityPhoton {
 
         private void ReadFromStream(PhotonStream stream) {
             // Network player; receive data
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
+            sourcePosition = (Vector3)stream.ReceiveNext();
+            sourceRotation = (Quaternion)stream.ReceiveNext();
         }
     }
 }

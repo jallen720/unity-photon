@@ -1,22 +1,16 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 namespace UnityPhoton {
     public class MatchmakerUI : MonoBehaviour {
 
         [SerializeField]
-        private Text status;
-
-        [SerializeField]
         private ConnectionStateObserver connectionStateObserver;
 
-        private void Start() {
-            connectionStateObserver.NewConnectionStateEvent.Subscribe(OnNewConnectionState);
-            status.text = "";
-        }
+        [SerializeField]
+        private InGameLog log;
 
-        private void OnNewConnectionState(string newConnectionState) {
-            status.text += "\n" + newConnectionState;
+        private void Start() {
+            connectionStateObserver.NewConnectionStateEvent.Subscribe(log.PrintLine);
         }
     }
 }
