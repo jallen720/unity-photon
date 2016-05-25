@@ -106,13 +106,13 @@ namespace UnityPhoton {
         }
 
         private void WriteToStream(PhotonStream stream) {
-            // We own this player: send the others our data
+            // We own this player; send the others our data
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
         }
 
         private void ReadFromStream(PhotonStream stream) {
-            // Network player, receive data
+            // Network player; receive data
             transform.position = (Vector3)stream.ReceiveNext();
             transform.rotation = (Quaternion)stream.ReceiveNext();
         }
