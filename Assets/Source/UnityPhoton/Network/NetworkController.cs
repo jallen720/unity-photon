@@ -27,7 +27,7 @@ namespace UnityPhoton {
             return failedToConnectEvent = new Event<DisconnectCause>();
         }
 
-        public void CheckConnect() {
+        public void CheckConnectToPhoton() {
             if (PhotonNetwork.connected) {
                 ConnectedEvent.Trigger();
             }
@@ -38,18 +38,18 @@ namespace UnityPhoton {
 
         public override void OnConnectedToPhoton() {
             base.OnConnectedToPhoton();
-            Debug.Log("OnConnectedToPhoton()");
+            Debug.Log("NetworkController.OnConnectedToPhoton()");
         }
 
         public override void OnConnectedToMaster() {
             base.OnConnectedToMaster();
-            Debug.Log("OnConnectedToMaster()");
+            Debug.Log("NetworkController.OnConnectedToMaster()");
             ConnectedEvent.Trigger();
         }
 
         public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
             base.OnFailedToConnectToPhoton(cause);
-            Debug.Log("OnFailedToConnectToPhoton(" + cause.ToString() + ")");
+            Debug.Log("NetworkController.OnFailedToConnectToPhoton(" + cause.ToString() + ")");
             FailedToConnectEvent.Trigger(cause);
         }
     }

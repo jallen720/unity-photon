@@ -35,7 +35,7 @@ namespace UnityPhoton {
 
         private void CheckConnect() {
             button.interactable = false;
-            networkController.CheckConnect();
+            networkController.CheckConnectToPhoton();
         }
     }
 }
