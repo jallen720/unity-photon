@@ -13,27 +13,11 @@ namespace UnityPhoton {
         [SerializeField]
         private InGameLog log;
 
-        public override void OnJoinedLobby() {
-            base.OnJoinedLobby();
-            Debug.Log("OnJoinedLobby()");
-            PhotonNetwork.JoinRandomRoom();
-        }
-
-        public override void OnReceivedRoomListUpdate() {
-            base.OnReceivedRoomListUpdate();
-            Debug.Log("OnReceivedRoomListUpdate()");
-        }
-
         private void OnPhotonRandomJoinFailed() {
             Debug.Log("OnPhotonRandomJoinFailed()");
 
             // Couldn't join random room; create new one.
             PhotonNetwork.CreateRoom(null);
-        }
-
-        public override void OnLeftLobby() {
-            base.OnLeftLobby();
-            Debug.Log("OnLeftLobby()");
         }
 
         public override void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged) {

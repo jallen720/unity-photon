@@ -2,22 +2,17 @@
 using UnityEngine.UI;
 
 namespace UnityPhoton {
-
-    [RequireComponent(typeof(Text))]
     public class InGameLog : MonoBehaviour {
-        private Text log;
+
+        [SerializeField]
+        private Text logText;
 
         private void Start() {
-            log = GetComponent<Text>();
-            Init();
-        }
-
-        private void Init() {
-            log.text = "";
+            logText.text = "";
         }
 
         public void Print(string message) {
-            log.text += message;
+            logText.text += message;
         }
 
         public void PrintLine(string message) {
