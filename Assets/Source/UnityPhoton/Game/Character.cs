@@ -16,27 +16,26 @@ namespace UnityPhoton {
         [SerializeField]
         private float sourceRotationSpeed;
 
-        private SpriteRenderer spriteRenderer;
         private Vector3 sourcePosition;
         private Quaternion sourceRotation;
 
         private void Start() {
-            spriteRenderer = GetComponent<SpriteRenderer>();
-            spriteRenderer.color = CharacterConfig.CharacterColors[GetOwnerColorIndex()];
+            SetColor();
             CheckInit();
         }
 
-        private int GetOwnerColorIndex() {
-            return SortedPlayerList().IndexOf(photonView.owner);
+        private void SetColor() {
+            GetComponent<SpriteRenderer>().color =
+                CharacterConfig.CharacterColors[GetOwnerColorIndex()];
         }
 
-        private List<PhotonPlayer> SortedPlayerList() {
+        private int GetOwnerColorIndex() {
+            return GetSortedPlayerList().IndexOf(photonView.owner);
+        }
+
+        private List<PhotonPlayer> GetSortedPlayerList() {
             var sortedPlayerList = new List<PhotonPlayer>(PhotonNetwork.playerList);
-
-            sortedPlayerList.Sort((PhotonPlayer playerA, PhotonPlayer playerB) => {
-                return playerA.ID.CompareTo(playerB.ID);
-            });
-
+            sortedPlayerList.Sort((playerA, playerB) => playerA.ID.CompareTo(playerB.ID));
             return sortedPlayerList;
         }
 

@@ -13,21 +13,6 @@ namespace UnityPhoton {
         [SerializeField]
         private InGameLog log;
 
-        private void Start() {
-            PhotonNetwork.ConnectUsingSettings("0.1");
-        }
-
-        public override void OnConnectedToPhoton() {
-            base.OnConnectedToPhoton();
-            Debug.Log("OnConnectedToPhoton()");
-        }
-
-        public override void OnConnectedToMaster() {
-            base.OnConnectedToMaster();
-            Debug.Log("OnConnectedToMaster()");
-            PhotonNetwork.JoinLobby();
-        }
-
         public override void OnJoinedLobby() {
             base.OnJoinedLobby();
             Debug.Log("OnJoinedLobby()");
@@ -110,11 +95,6 @@ namespace UnityPhoton {
         public override void OnCustomAuthenticationResponse(Dictionary<string, object> data) {
             base.OnCustomAuthenticationResponse(data);
             Debug.Log("OnCustomAuthenticationResponse()");
-        }
-
-        public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
-            base.OnFailedToConnectToPhoton(cause);
-            Debug.Log("OnFailedToConnectToPhoton()");
         }
 
         public override void OnLobbyStatisticsUpdate() {
