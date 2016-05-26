@@ -1,16 +1,18 @@
 ﻿using UnityEngine;
 using UnityUtils.ConfigUtils;
 
-public class CharacterConfig : Config<CharacterConfig> {
+namespace UnityPhoton {
+    public class CharacterConfig : Config<CharacterConfig> {
 
-    [SerializeField]
-    private Color[] characterColors;
+        [SerializeField]
+        private Color[] characterColors;
 
-    // Static members
+        // Static members
 
-    public static Color[] CharacterColors {
-        get {
-            return Instance.characterColors;
+        public static Color[] CharacterColors {
+            get {
+                return Instance.characterColors;
+            }
         }
     }
 }
