@@ -4,21 +4,21 @@ using Debug = UnityEngine.Debug;
 
 namespace UnityPhoton {
     public class LobbyController : PunBehaviour {
-        private Event joinedLobbyEvent;
+        private Event receivedRoomListEvent;
 
-        public Event JoinedLobbyEvent {
+        public Event ReceivedRoomListEvent {
             get {
-                return joinedLobbyEvent ?? LoadJoinedLobbyEvent();
+                return receivedRoomListEvent ?? LoadReceivedRoomListEvent();
             }
         }
 
-        private Event LoadJoinedLobbyEvent() {
-            return joinedLobbyEvent = new Event();
+        private Event LoadReceivedRoomListEvent() {
+            return receivedRoomListEvent = new Event();
         }
 
         public void CheckJoinLobby() {
             if (PhotonNetwork.insideLobby) {
-                JoinedLobbyEvent.Trigger();
+                ReceivedRoomListEvent.Trigger();
             }
             else {
                 PhotonNetwork.JoinLobby();
@@ -28,12 +28,12 @@ namespace UnityPhoton {
         public override void OnJoinedLobby() {
             base.OnJoinedLobby();
             Debug.Log("LobbyController.OnJoinedLobby()");
-            JoinedLobbyEvent.Trigger();
         }
 
         public override void OnReceivedRoomListUpdate() {
             base.OnReceivedRoomListUpdate();
             Debug.Log("LobbyController.OnReceivedRoomListUpdate()");
+            ReceivedRoomListEvent.Trigger();
         }
 
         public override void OnLobbyStatisticsUpdate() {
