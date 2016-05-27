@@ -10,14 +10,19 @@ namespace UnityPhoton {
         private GameObject dialog;
 
         [SerializeField]
-        private bool setActive;
+        private DialogAction dialogAction;
 
         private void Start() {
             GetComponent<Button>().onClick.AddListener(SetDialogActiveState);
         }
 
         private void SetDialogActiveState() {
-            dialog.SetActive(setActive);
+            dialog.SetActive(dialogAction == DialogAction.Open);
+        }
+
+        private enum DialogAction {
+            Open,
+            Close,
         }
     }
 }
