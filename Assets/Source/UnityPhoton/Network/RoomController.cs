@@ -1,47 +1,29 @@
 ﻿using ExitGames.Client.Photon;
 using Photon;
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 using Debug = UnityEngine.Debug;
 
 namespace UnityPhoton {
-    public class NetworkController : PunBehaviour {
-
-        [SerializeField]
-        private LobbyConnector lobbyConnector;
-
-        public void CheckConnect() {
-            if (PhotonNetwork.connected) {
-                lobbyConnector.TryToJoinLobby();
-            }
-            else {
-                PhotonNetwork.ConnectUsingSettings(NetworkConfig.GameVersion);
-            }
-        }
-
-        public override void OnConnectedToPhoton() {
-            base.OnConnectedToPhoton();
-            Debug.Log("NetworkController.OnConnectedToPhoton()");
+    public class RoomController : PunBehaviour {
+        public override void OnLeftRoom() {
+            base.OnLeftRoom();
+            Debug.Log("RoomController.OnLeftRoom()");
         }
 
         public override void OnConnectedToMaster() {
             base.OnConnectedToMaster();
-            Debug.Log("NetworkController.OnConnectedToMaster()");
-        }
-
-        public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
-            base.OnFailedToConnectToPhoton(cause);
-            Debug.Log("NetworkController.OnFailedToConnectToPhoton(" + cause.ToString() + ")");
+            Debug.Log("RoomController.OnConnectedToMaster()");
         }
 
         public override void OnJoinedLobby() {
             base.OnJoinedLobby();
-            Debug.Log("NetworkController.OnJoinedLobby()");
+            Debug.Log("RoomController.OnJoinedLobby()");
         }
 
         public override void OnReceivedRoomListUpdate() {
             base.OnReceivedRoomListUpdate();
-            Debug.Log("NetworkController.OnReceivedRoomListUpdate()");
+            Debug.Log("RoomController.OnReceivedRoomListUpdate()");
         }
 
         #region Unhandled events
@@ -50,10 +32,10 @@ namespace UnityPhoton {
         //    throw new NotImplementedException(GetType().ToString() + ".OnConnectedToMaster()");
         //}
 
-        //public override void OnConnectedToPhoton() {
-        //    base.OnConnectedToPhoton();
-        //    throw new NotImplementedException(GetType().ToString() + ".OnConnectedToPhoton()");
-        //}
+        public override void OnConnectedToPhoton() {
+            base.OnConnectedToPhoton();
+            throw new NotImplementedException(GetType().ToString() + ".OnConnectedToPhoton()");
+        }
 
         public override void OnConnectionFail(DisconnectCause cause) {
             base.OnConnectionFail(cause);
@@ -70,30 +52,30 @@ namespace UnityPhoton {
             throw new NotImplementedException(GetType().ToString() + ".OnCustomAuthenticationFailed()");
         }
 
-        //public override void OnCustomAuthenticationResponse(Dictionary<string, object> data) {
-        //    base.OnCustomAuthenticationResponse(data);
-        //    throw new NotImplementedException(GetType().ToString() + ".OnCustomAuthenticationResponse()");
-        //}
+        public override void OnCustomAuthenticationResponse(Dictionary<string, object> data) {
+            base.OnCustomAuthenticationResponse(data);
+            throw new NotImplementedException(GetType().ToString() + ".OnCustomAuthenticationResponse()");
+        }
 
         public override void OnDisconnectedFromPhoton() {
             base.OnDisconnectedFromPhoton();
             throw new NotImplementedException(GetType().ToString() + ".OnDisconnectedFromPhoton()");
         }
 
-        //public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
-        //    base.OnFailedToConnectToPhoton(cause);
-        //    throw new NotImplementedException(GetType().ToString() + ".OnFailedToConnectToPhoton()");
-        //}
+        public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
+            base.OnFailedToConnectToPhoton(cause);
+            throw new NotImplementedException(GetType().ToString() + ".OnFailedToConnectToPhoton()");
+        }
 
         public override void OnJoinedRoom() {
             base.OnJoinedRoom();
             throw new NotImplementedException(GetType().ToString() + ".OnJoinedRoom()");
         }
 
-        public override void OnLeftRoom() {
-            base.OnLeftRoom();
-            throw new NotImplementedException(GetType().ToString() + ".OnLeftRoom()");
-        }
+        //public override void OnLeftRoom() {
+        //    base.OnLeftRoom();
+        //    throw new NotImplementedException(GetType().ToString() + ".OnLeftRoom()");
+        //}
 
         //public override void OnJoinedLobby() {
         //    base.OnJoinedLobby();
