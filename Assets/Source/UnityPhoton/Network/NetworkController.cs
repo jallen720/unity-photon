@@ -1,19 +1,22 @@
 ﻿using Photon;
-using UnityUtils.EventUtils;
+using System;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 namespace UnityPhoton {
     public class NetworkController : PunBehaviour {
-        public readonly Event ConnectedEvent = new Event();
-        public readonly Event<DisconnectCause> FailedToConnectEvent = new Event<DisconnectCause>();
-        public readonly Event JoinedLobbyEvent = new Event();
-
-        public void CheckConnectToPhoton() {
+        public void CheckConnect() {
             if (PhotonNetwork.connected) {
-                ConnectedEvent.Trigger();
+                TryToJoinLobby();
             }
             else {
                 PhotonNetwork.ConnectUsingSettings(NetworkConfig.GameVersion);
+            }
+        }
+
+        private void TryToJoinLobby() {
+            if (!PhotonNetwork.JoinLobby()) {
+                throw new Exception("Failed to join lobby");
             }
         }
 
@@ -25,19 +28,18 @@ namespace UnityPhoton {
         public override void OnConnectedToMaster() {
             base.OnConnectedToMaster();
             Debug.Log("NetworkController.OnConnectedToMaster()");
-            ConnectedEvent.Trigger();
+            TryToJoinLobby();
         }
 
         public override void OnFailedToConnectToPhoton(DisconnectCause cause) {
             base.OnFailedToConnectToPhoton(cause);
             Debug.Log("NetworkController.OnFailedToConnectToPhoton(" + cause.ToString() + ")");
-            FailedToConnectEvent.Trigger(cause);
         }
 
         public override void OnJoinedLobby() {
             base.OnJoinedLobby();
             Debug.Log("NetworkController.OnJoinedLobby()");
-            JoinedLobbyEvent.Trigger();
+            SceneManager.LoadScene("Lobby");
         }
     }
 }
