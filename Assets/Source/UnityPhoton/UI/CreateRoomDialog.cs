@@ -5,6 +5,9 @@ namespace UnityPhoton {
     public class CreateRoomDialog : MonoBehaviour {
 
         [SerializeField]
+        private LobbyController lobbyController;
+
+        [SerializeField]
         private Button createButton;
 
         [SerializeField]
@@ -19,6 +22,7 @@ namespace UnityPhoton {
         }
 
         private void CreateRoom() {
+            lobbyController.FlagAsJoiningRoom();
             PhotonNetwork.CreateRoom(roomNameText.text);
             gameObject.SetActive(false);
         }

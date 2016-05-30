@@ -1,10 +1,8 @@
-﻿using UnityEngine;
+﻿using Photon;
+using UnityEngine;
 
 namespace UnityPhoton {
-    public class RoomListController : MonoBehaviour {
-
-        [SerializeField]
-        private LobbyController lobbyController;
+    public class RoomListController : PunBehaviour {
 
         [SerializeField]
         private GameObject emptyRoomListDisplay;
@@ -13,7 +11,6 @@ namespace UnityPhoton {
         private RoomListDisplay roomListDisplay;
 
         private void Start() {
-            lobbyController.ReceivedRoomListEvent.Subscribe(UpdateRoomList);
             UpdateRoomList();
         }
 
@@ -26,6 +23,11 @@ namespace UnityPhoton {
             else {
                 ShowRoomListDisplay(roomList);
             }
+        }
+
+        public override void OnReceivedRoomListUpdate() {
+            base.OnReceivedRoomListUpdate();
+            UpdateRoomList();
         }
 
         private void ShowEmptyRoomListDisplay() {

@@ -1,16 +1,22 @@
 ﻿using Photon;
-using UnityUtils.EventUtils;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 namespace UnityPhoton {
     public class LobbyController : PunBehaviour {
-        public readonly Event ReceivedRoomListEvent = new Event();
-        public readonly Event LeftLobbyEvent = new Event();
+        private bool isJoiningRoom;
+
+        private void Start() {
+            isJoiningRoom = false;
+        }
+
+        public void FlagAsJoiningRoom() {
+            isJoiningRoom = true;
+        }
 
         public override void OnReceivedRoomListUpdate() {
             base.OnReceivedRoomListUpdate();
             Debug.Log("LobbyController.OnReceivedRoomListUpdate()");
-            ReceivedRoomListEvent.Trigger();
         }
 
         public override void OnLobbyStatisticsUpdate() {
@@ -21,7 +27,13 @@ namespace UnityPhoton {
         public override void OnLeftLobby() {
             base.OnLeftLobby();
             Debug.Log("LobbyController.OnLeftLobby()");
-            LeftLobbyEvent.Trigger();
+            CheckReturnToMainMenu();
+        }
+
+        private void CheckReturnToMainMenu() {
+            if (!isJoiningRoom) {
+                SceneManager.LoadScene("MainMenu");
+            }
         }
 
         public override void OnCreatedRoom() {
@@ -32,6 +44,13 @@ namespace UnityPhoton {
         public override void OnJoinedRoom() {
             base.OnJoinedRoom();
             Debug.Log("OnJoinedRoom()");
+            SceneManager.LoadScene("Room");
+        }
+
+        public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
+            base.OnPhotonJoinRoomFailed(codeAndMsg);
+            Debug.Log("OnPhotonJoinRoomFailed()");
+            isJoiningRoom = false;
         }
     }
 }
