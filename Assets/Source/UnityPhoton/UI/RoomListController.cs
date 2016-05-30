@@ -14,7 +14,7 @@ namespace UnityPhoton {
 
         private void Start() {
             lobbyController.ReceivedRoomListEvent.Subscribe(UpdateRoomList);
-            lobbyController.CheckJoinLobby();
+            UpdateRoomList();
         }
 
         private void UpdateRoomList() {

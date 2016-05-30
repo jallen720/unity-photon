@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace UnityPhoton {
@@ -25,7 +25,13 @@ namespace UnityPhoton {
 
         private void OnConnected() {
             Debug.Log("Successfully connected to Photon");
-            SceneManager.LoadScene("Lobby");
+            TryToJoinLobby();
+        }
+
+        private void TryToJoinLobby() {
+            if (!PhotonNetwork.JoinLobby()) {
+                throw new Exception("Failed to join lobby");
+            }
         }
 
         private void OnFailedToConnectToPhoton(DisconnectCause cause) {

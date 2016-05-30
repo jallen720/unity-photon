@@ -4,28 +4,9 @@ using Debug = UnityEngine.Debug;
 
 namespace UnityPhoton {
     public class NetworkController : PunBehaviour {
-        private Event connectedEvent;
-        private Event<DisconnectCause> failedToConnectEvent;
-
-        public Event ConnectedEvent {
-            get {
-                return connectedEvent ?? LoadConnectedEvent();
-            }
-        }
-
-        public Event<DisconnectCause> FailedToConnectEvent {
-            get {
-                return failedToConnectEvent ?? LoadFailedToConnectEvent();
-            }
-        }
-
-        private Event LoadConnectedEvent() {
-            return connectedEvent = new Event();
-        }
-
-        private Event<DisconnectCause> LoadFailedToConnectEvent() {
-            return failedToConnectEvent = new Event<DisconnectCause>();
-        }
+        public readonly Event ConnectedEvent = new Event();
+        public readonly Event<DisconnectCause> FailedToConnectEvent = new Event<DisconnectCause>();
+        public readonly Event JoinedLobbyEvent = new Event();
 
         public void CheckConnectToPhoton() {
             if (PhotonNetwork.connected) {
@@ -51,6 +32,12 @@ namespace UnityPhoton {
             base.OnFailedToConnectToPhoton(cause);
             Debug.Log("NetworkController.OnFailedToConnectToPhoton(" + cause.ToString() + ")");
             FailedToConnectEvent.Trigger(cause);
+        }
+
+        public override void OnJoinedLobby() {
+            base.OnJoinedLobby();
+            Debug.Log("NetworkController.OnJoinedLobby()");
+            JoinedLobbyEvent.Trigger();
         }
     }
 }
