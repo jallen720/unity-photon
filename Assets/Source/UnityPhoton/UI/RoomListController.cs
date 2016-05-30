@@ -15,30 +15,18 @@ namespace UnityPhoton {
         }
 
         private void UpdateRoomList() {
-            RoomInfo[] roomList = PhotonNetwork.GetRoomList();
+            ShowRoomListDisplay(PhotonNetwork.GetRoomList());
+        }
 
-            if (roomList.Length == 0) {
-                ShowEmptyRoomListDisplay();
-            }
-            else {
-                ShowRoomListDisplay(roomList);
-            }
+        private void ShowRoomListDisplay(RoomInfo[] roomList) {
+            roomListDisplay.gameObject.SetActive(roomList.Length > 0);
+            emptyRoomListDisplay.SetActive(!roomListDisplay.gameObject.activeSelf);
+            roomListDisplay.Load(roomList);
         }
 
         public override void OnReceivedRoomListUpdate() {
             base.OnReceivedRoomListUpdate();
             UpdateRoomList();
-        }
-
-        private void ShowEmptyRoomListDisplay() {
-            emptyRoomListDisplay.SetActive(true);
-            roomListDisplay.gameObject.SetActive(false);
-        }
-
-        private void ShowRoomListDisplay(RoomInfo[] roomList) {
-            emptyRoomListDisplay.SetActive(false);
-            roomListDisplay.gameObject.SetActive(true);
-            roomListDisplay.Load(roomList);
         }
     }
 }
