@@ -4,7 +4,7 @@ namespace UnityPhoton {
     public class ConnectionLogController : MonoBehaviour {
 
         [SerializeField]
-        private InGameLog log;
+        private InGameLogDisplay log;
 
         [SerializeField]
         private ConnectionStateObserver connectionStateObserver;

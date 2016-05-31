@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 namespace UnityPhoton {
-    public class CreateRoomDialog : MonoBehaviour {
+    public class CreateRoomDialogController : MonoBehaviour {
 
         [SerializeField]
         private LobbyController lobbyController;

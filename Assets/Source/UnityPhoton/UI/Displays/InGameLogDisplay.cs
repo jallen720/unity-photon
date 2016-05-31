@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 namespace UnityPhoton {
-    public class InGameLog : MonoBehaviour {
+    public class InGameLogDisplay : MonoBehaviour {
 
         [SerializeField]
         private Text logText;
