@@ -1,13 +1,11 @@
 ﻿using Photon;
 using System;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace UnityPhoton {
     public class LobbyConnector : PunBehaviour {
         public override void OnConnectedToMaster() {
             base.OnConnectedToMaster();
-            Debug.Log("LobbyConnector.OnConnectedToMaster()");
             TryToJoinLobby();
         }
 
@@ -19,7 +17,6 @@ namespace UnityPhoton {
 
         public override void OnJoinedLobby() {
             base.OnJoinedLobby();
-            Debug.Log("LobbyConnector.OnJoinedLobby()");
             SceneManager.LoadScene("Lobby");
         }
     }
