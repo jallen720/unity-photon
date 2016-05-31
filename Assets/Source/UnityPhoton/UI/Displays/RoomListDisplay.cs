@@ -12,6 +12,9 @@ namespace UnityPhoton {
         [SerializeField]
         private UObject roomDisplayPrefab;
 
+        [SerializeField]
+        private LobbyController lobbyController;
+
         public void Load(RoomInfo[] roomList) {
             DestroyOldRoomDisplays();
             Array.ForEach(roomList, LoadRoomDisplay);
@@ -26,7 +29,7 @@ namespace UnityPhoton {
         private void LoadRoomDisplay(RoomInfo roomInfo) {
             roomDisplayContainer
                 .InstantiateChild<RoomDisplay>(roomDisplayPrefab)
-                .Init(roomInfo);
+                .Init(roomInfo, lobbyController);
         }
     }
 }

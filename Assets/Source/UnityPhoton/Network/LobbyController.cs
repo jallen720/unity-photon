@@ -1,6 +1,8 @@
 ﻿using ExitGames.Client.Photon;
 using Photon;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
@@ -58,6 +60,11 @@ namespace UnityPhoton {
         public override void OnPhotonCustomRoomPropertiesChanged(Hashtable propertiesThatChanged) {
             base.OnPhotonCustomRoomPropertiesChanged(propertiesThatChanged);
             Debug.Log("LobbyController.OnPhotonCustomRoomPropertiesChanged()");
+        }
+
+        public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {
+            base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
+            Debug.Log("LobbyController.OnPhotonPlayerPropertiesChanged()");
         }
 
         #region Unhandled events
@@ -171,10 +178,10 @@ namespace UnityPhoton {
             throw new NotImplementedException(GetType().ToString() + ".OnPhotonPlayerDisconnected()");
         }
 
-        public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {
-            base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
-            throw new NotImplementedException(GetType().ToString() + ".OnPhotonPlayerPropertiesChanged()");
-        }
+        //public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {
+        //    base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
+        //    throw new NotImplementedException(GetType().ToString() + ".OnPhotonPlayerPropertiesChanged()");
+        //}
 
         public override void OnPhotonRandomJoinFailed(object[] codeAndMsg) {
             base.OnPhotonRandomJoinFailed(codeAndMsg);

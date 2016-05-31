@@ -5,10 +5,14 @@ namespace UnityPhoton {
     public class RoomDisplay : MonoBehaviour {
 
         [SerializeField]
-        private Text roomNameText;
+        private Text nameText;
 
-        public void Init(RoomInfo roomInfo) {
-            roomNameText.text = roomInfo.name;
+        [SerializeField]
+        private JoinRoomButton joinButton;
+
+        public void Init(RoomInfo roomInfo, LobbyController lobbyController) {
+            nameText.text = roomInfo.name;
+            joinButton.Init(roomInfo.name, lobbyController);
         }
     }
 }
