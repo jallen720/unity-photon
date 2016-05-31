@@ -22,27 +22,36 @@ namespace UnityPhoton {
         [SerializeField]
         private ErrorDisplay errorDisplay;
 
-        private readonly List<Validation<string>> roomNameValidations =
-            new List<Validation<string>> {
+        private List<Validation<string>> roomNameValidations;
+
+        private void Start() {
+            roomNameValidations = GetRoomNameValidations();
+            Init();
+        }
+
+        private List<Validation<string>> GetRoomNameValidations() {
+            return new List<Validation<string>> {
                 new Validation<string> {
                     isValid = (string roomName) => roomName != "",
                     errorMessage = "Room name cannot be empty"
                 },
+
                 new Validation<string> {
                     isValid = IsUnique,
                     errorMessage = "A room with that name already exists"
-                }
+                },
             };
+        }
 
-        private void Start() {
+        private void Init() {
             createButton.onClick.AddListener(CheckCreateRoom);
             cancelButton.onClick.AddListener(errorDisplay.Clear);
         }
 
         private void CheckCreateRoom() {
-            List<string> errorMessages;
+            List<string> errorMessages = GetErrorMessages();
 
-            if (RoomNameIsValid(out errorMessages)) {
+            if (errorMessages.Count == 0) {
                 CreateRoom();
             }
             else {
@@ -50,13 +59,11 @@ namespace UnityPhoton {
             }
         }
 
-        private bool RoomNameIsValid(out List<string> errorMessages) {
-            errorMessages = new List<string>(
+        private List<string> GetErrorMessages() {
+            return new List<string>(
                 roomNameValidations
                     .FindAll(validation => !validation.isValid(roomNameText.text))
                     .Select(validation => validation.errorMessage));
-
-            return errorMessages.Count == 0;
         }
 
         private void CreateRoom() {
