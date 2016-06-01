@@ -13,12 +13,20 @@ namespace UnityPhoton {
         private ListDisplay<PhotonPlayer, PlayerDisplay> listDisplay;
 
         private void Start() {
-            listDisplay =
-                new ListDisplay<PhotonPlayer, PlayerDisplay>(
-                    playerDisplayContainer,
-                    playerDisplayPrefab);
+            listDisplay = new ListDisplay<PhotonPlayer, PlayerDisplay>(
+                playerDisplayContainer,
+                playerDisplayPrefab,
+                PhotonPlayerComparison);
 
             UpdatePlayerList();
+        }
+
+        private int PhotonPlayerComparison(PhotonPlayer playerA, PhotonPlayer playerB) {
+            return playerA.ID.CompareTo(playerB.ID);
+        }
+
+        private void UpdatePlayerList() {
+            listDisplay.Load(PhotonNetwork.playerList);
         }
 
         public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
@@ -29,10 +37,6 @@ namespace UnityPhoton {
         public override void OnPhotonPlayerDisconnected(PhotonPlayer newPlayer) {
             base.OnPhotonPlayerDisconnected(newPlayer);
             UpdatePlayerList();
-        }
-
-        private void UpdatePlayerList() {
-            listDisplay.Load(PhotonNetwork.playerList);
         }
     }
 }

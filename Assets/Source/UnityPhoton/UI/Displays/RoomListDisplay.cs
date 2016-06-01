@@ -23,10 +23,15 @@ namespace UnityPhoton {
         private ListDisplay<RoomInfo, RoomDisplay> LoadListDisplay() {
             listDisplay = new ListDisplay<RoomInfo, RoomDisplay>(
                 roomDisplayContainer,
-                roomDisplayPrefab);
+                roomDisplayPrefab,
+                RoomInfoComparison);
 
             listDisplay.LoadElementDisplayEvent.Subscribe(OnLoadRoomDisplay);
             return listDisplay;
+        }
+
+        private int RoomInfoComparison(RoomInfo roomInfoA, RoomInfo roomInfoB) {
+            return roomInfoA.name.CompareTo(roomInfoB.name);
         }
 
         private void OnLoadRoomDisplay(RoomDisplay roomDisplay) {

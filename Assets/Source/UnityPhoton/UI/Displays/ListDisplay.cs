@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityUtils.EventUtils;
 using UnityUtils.Extensions;
@@ -10,18 +11,32 @@ namespace UnityPhoton {
     {
         private RectTransform elementContainer;
         private UObject elementPrefab;
+        private Comparison<ElementData> elementDataComparison;
 
         public readonly Event<Element> LoadElementDisplayEvent;
 
-        public ListDisplay(RectTransform elementContainer, UObject elementPrefab) {
+        public ListDisplay(
+            RectTransform elementContainer,
+            UObject elementPrefab,
+            Comparison<ElementData> elementDataComparison)
+        {
             this.elementContainer = elementContainer;
             this.elementPrefab = elementPrefab;
+            this.elementDataComparison = elementDataComparison;
             LoadElementDisplayEvent = new Event<Element>();
         }
 
-        public void Load(ElementData[] elementDatas) {
+        public void Load(IEnumerable<ElementData> elementDatas) {
+            var elementDatasList = new List<ElementData>(elementDatas);
             DestroyOldElementDisplays();
-            Array.ForEach(elementDatas, LoadElementDisplay);
+            CheckSortElementDatasList(elementDatasList);
+            elementDatasList.ForEach(LoadElementDisplay);
+        }
+
+        private void CheckSortElementDatasList(List<ElementData> elementDatasList) {
+            if (elementDataComparison != null) {
+                elementDatasList.Sort(elementDataComparison);
+            }
         }
 
         private void DestroyOldElementDisplays() {
