@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-using UnityUtils.Extensions;
-using UObject = UnityEngine.Object;
+﻿using UnityEngine;
 
 namespace UnityPhoton {
     public class RoomListDisplay : MonoBehaviour {
@@ -10,26 +7,31 @@ namespace UnityPhoton {
         private RectTransform roomDisplayContainer;
 
         [SerializeField]
-        private UObject roomDisplayPrefab;
+        private Object roomDisplayPrefab;
 
         [SerializeField]
         private LobbyController lobbyController;
 
-        public void Load(RoomInfo[] roomList) {
-            DestroyOldRoomDisplays();
-            Array.ForEach(roomList, LoadRoomDisplay);
-        }
+        private ListDisplay<RoomInfo, RoomDisplay> listDisplay;
 
-        private void DestroyOldRoomDisplays() {
-            foreach (Transform roomDisplay in roomDisplayContainer) {
-                Destroy(roomDisplay.gameObject);
+        public ListDisplay<RoomInfo, RoomDisplay> ListDisplay {
+            get {
+                return listDisplay ?? LoadListDisplay();
             }
         }
 
-        private void LoadRoomDisplay(RoomInfo roomInfo) {
-            roomDisplayContainer
-                .InstantiateChild<RoomDisplay>(roomDisplayPrefab)
-                .Init(roomInfo, lobbyController);
+        private ListDisplay<RoomInfo, RoomDisplay> LoadListDisplay() {
+            return listDisplay = new ListDisplay<RoomInfo, RoomDisplay>(
+                roomDisplayContainer,
+                roomDisplayPrefab);
+        }
+
+        private void Start() {
+            ListDisplay.LoadElementDisplayEvent.Subscribe(OnLoadRoomDisplay);
+        }
+
+        private void OnLoadRoomDisplay(RoomDisplay roomDisplay) {
+            roomDisplay.Init(lobbyController);
         }
     }
 }

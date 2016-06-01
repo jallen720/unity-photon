@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 namespace UnityPhoton {
-    public class RoomDisplay : MonoBehaviour {
+    public class RoomDisplay : MonoBehaviour, IListDisplayElement<RoomInfo> {
 
         [SerializeField]
         private Text nameText;
@@ -10,9 +10,12 @@ namespace UnityPhoton {
         [SerializeField]
         private JoinRoomButton joinButton;
 
-        public void Init(RoomInfo roomInfo, LobbyController lobbyController) {
+        void IListDisplayElement<RoomInfo>.Init(RoomInfo roomInfo) {
             nameText.text = roomInfo.name;
-            joinButton.Init(roomInfo.name, lobbyController);
+        }
+
+        public void Init(LobbyController lobbyController) {
+            joinButton.Init(nameText.text, lobbyController);
         }
     }
 }

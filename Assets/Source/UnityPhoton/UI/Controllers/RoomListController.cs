@@ -21,7 +21,7 @@ namespace UnityPhoton {
         private void ShowRoomListDisplay(RoomInfo[] roomList) {
             roomListDisplay.gameObject.SetActive(roomList.Length > 0);
             emptyRoomListDisplay.SetActive(!roomListDisplay.gameObject.activeSelf);
-            roomListDisplay.Load(roomList);
+            roomListDisplay.ListDisplay.Load(roomList);
         }
 
         public override void OnReceivedRoomListUpdate() {

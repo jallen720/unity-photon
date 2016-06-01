@@ -26,6 +26,16 @@ namespace UnityPhoton {
             Debug.Log("RoomController.OnReceivedRoomListUpdate()");
         }
 
+        public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
+            base.OnPhotonPlayerConnected(newPlayer);
+            Debug.Log("RoomController.OnPhotonPlayerConnected()");
+        }
+
+        public override void OnPhotonPlayerDisconnected(PhotonPlayer newPlayer) {
+            base.OnPhotonPlayerDisconnected(newPlayer);
+            Debug.Log("RoomController.OnPhotonPlayerDisconnected()");
+        }
+
         #region Unhandled events
         //public override void OnConnectedToMaster() {
         //    base.OnConnectedToMaster();
@@ -127,15 +137,15 @@ namespace UnityPhoton {
             throw new NotImplementedException(GetType().ToString() + ".OnPhotonMaxCccuReached()");
         }
 
-        public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
-            base.OnPhotonPlayerConnected(newPlayer);
-            throw new NotImplementedException(GetType().ToString() + ".OnPhotonPlayerConnected()");
-        }
+        //public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer) {
+        //    base.OnPhotonPlayerConnected(newPlayer);
+        //    throw new NotImplementedException(GetType().ToString() + ".OnPhotonPlayerConnected()");
+        //}
 
-        public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
-            base.OnPhotonPlayerDisconnected(otherPlayer);
-            throw new NotImplementedException(GetType().ToString() + ".OnPhotonPlayerDisconnected()");
-        }
+        //public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer) {
+        //    base.OnPhotonPlayerDisconnected(otherPlayer);
+        //    throw new NotImplementedException(GetType().ToString() + ".OnPhotonPlayerDisconnected()");
+        //}
 
         public override void OnPhotonPlayerPropertiesChanged(object[] playerAndUpdatedProps) {
             base.OnPhotonPlayerPropertiesChanged(playerAndUpdatedProps);
