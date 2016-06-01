@@ -7,7 +7,7 @@ using UObject = UnityEngine.Object;
 
 namespace UnityPhoton {
     public class ListDisplay<ElementData, Element>
-        where Element : Component, IListDisplayElement<ElementData> 
+        where Element : Component, IListDisplayElement<ElementData>
     {
         private RectTransform elementContainer;
         private UObject elementPrefab;
