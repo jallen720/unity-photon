@@ -8,7 +8,7 @@ namespace UnityPhoton {
         private Text playerNameText;
 
         void IListDisplayElement<PhotonPlayer>.Init(PhotonPlayer player) {
-            playerNameText.text = "ID: " + player.ID;
+            playerNameText.text = "name: " + player.name;
         }
     }
 }
