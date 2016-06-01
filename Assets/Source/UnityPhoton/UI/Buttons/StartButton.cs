@@ -5,7 +5,7 @@ using UnityEngine.UI;
 namespace UnityPhoton {
 
     [RequireComponent(typeof(Button))]
-    public class PlayButton : PunBehaviour {
+    public class StartButton : PunBehaviour {
 
         [SerializeField]
         private NetworkController networkController;
