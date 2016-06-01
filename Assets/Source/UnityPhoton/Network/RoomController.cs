@@ -36,6 +36,11 @@ namespace UnityPhoton {
             Debug.Log("RoomController.OnPhotonPlayerDisconnected()");
         }
 
+        public override void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
+            base.OnMasterClientSwitched(newMasterClient);
+            Debug.Log("RoomController.OnMasterClientSwitched()");
+        }
+
         #region Unhandled events
         //public override void OnConnectedToMaster() {
         //    base.OnConnectedToMaster();
@@ -102,10 +107,10 @@ namespace UnityPhoton {
             throw new NotImplementedException(GetType().ToString() + ".OnLobbyStatisticsUpdate()");
         }
 
-        public override void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
-            base.OnMasterClientSwitched(newMasterClient);
-            throw new NotImplementedException(GetType().ToString() + ".OnMasterClientSwitched()");
-        }
+        //public override void OnMasterClientSwitched(PhotonPlayer newMasterClient) {
+        //    base.OnMasterClientSwitched(newMasterClient);
+        //    throw new NotImplementedException(GetType().ToString() + ".OnMasterClientSwitched()");
+        //}
 
         public override void OnOwnershipRequest(object[] viewAndPlayer) {
             base.OnOwnershipRequest(viewAndPlayer);
