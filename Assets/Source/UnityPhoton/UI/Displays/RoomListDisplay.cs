@@ -21,13 +21,12 @@ namespace UnityPhoton {
         }
 
         private ListDisplay<RoomInfo, RoomDisplay> LoadListDisplay() {
-            return listDisplay = new ListDisplay<RoomInfo, RoomDisplay>(
+            listDisplay = new ListDisplay<RoomInfo, RoomDisplay>(
                 roomDisplayContainer,
                 roomDisplayPrefab);
-        }
 
-        private void Start() {
-            ListDisplay.LoadElementDisplayEvent.Subscribe(OnLoadRoomDisplay);
+            listDisplay.LoadElementDisplayEvent.Subscribe(OnLoadRoomDisplay);
+            return listDisplay;
         }
 
         private void OnLoadRoomDisplay(RoomDisplay roomDisplay) {
