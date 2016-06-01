@@ -1,5 +1,5 @@
 ﻿namespace UnityPhoton {
-    public interface IListDisplayElement<T> {
-        void Init(T elementData);
+    public interface IListDisplayElement<ElementData> {
+        void Init(ElementData elementData);
     }
 }
